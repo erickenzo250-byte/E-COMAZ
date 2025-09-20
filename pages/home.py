@@ -6,7 +6,7 @@ import random
 
 PRODUCTS_FILE = "data/products.json"
 
-# Generate random products if file doesn't exist or is empty
+# Function to generate random products
 def generate_random_products(n=10):
     fake = Faker()
     products = []
@@ -18,10 +18,12 @@ def generate_random_products(n=10):
             "description": fake.sentence(),
             "image": f"https://picsum.photos/200?random={i}"
         })
+    os.makedirs("data", exist_ok=True)  # ensure data folder exists
     with open(PRODUCTS_FILE, "w") as f:
         json.dump(products, f, indent=2)
     return products
 
+# Safe load function
 def load_products():
     if not os.path.exists(PRODUCTS_FILE):
         return generate_random_products()
@@ -32,9 +34,10 @@ def load_products():
             if not data:  # empty file
                 return generate_random_products()
             return json.loads(data)
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, FileNotFoundError):
         return generate_random_products()
 
+# Display products
 def show_home():
     st.title("Welcome to E-Commerce App")
     products = load_products()
