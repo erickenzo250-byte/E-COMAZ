@@ -1,4 +1,22 @@
-[
-  {"id": 1, "name": "Product A", "price": 100, "description": "Description of A"},
-  {"id": 2, "name": "Product B", "price": 200, "description": "Description of B"}
-]
+# generate_products.py
+import json
+from faker import Faker
+import random
+
+fake = Faker()
+products = []
+
+for i in range(1, 11):
+    product = {
+        "id": i,
+        "name": fake.word().capitalize() + f" {i}",
+        "price": random.randint(10, 500),
+        "description": fake.sentence(),
+        "image": f"https://picsum.photos/200?random={i}"  # placeholder image
+    }
+    products.append(product)
+
+with open("data/products.json", "w") as f:
+    json.dump(products, f, indent=2)
+
+print("Random products generated successfully!")
