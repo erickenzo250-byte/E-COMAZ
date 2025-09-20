@@ -15,6 +15,7 @@ def show_home():
         st.subheader(p["name"])
         st.write(f"Price: ${p['price']}")
         st.write(p["description"])
-        if st.button(f"View {p['name']}"):
+        st.image(p["image"], width=150)
+        if st.button(f"View {p['name']}", key=p["id"]):
             st.session_state.selected_product = p
             st.success(f"Selected {p['name']}")
